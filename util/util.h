@@ -2,7 +2,6 @@
 #define __UTIL_H
 #include <stdint.h>
 #include <stddef.h>
-#include <sys/time.h>
 #include<stdlib.h>
 
 // Find the lowest index for the rank-th group
@@ -18,6 +17,5 @@ uint32_t align8(uint32_t s);
 
 uint32_t next_power(uint32_t size);
 
-int64_t usec(void);
 
 #endif
