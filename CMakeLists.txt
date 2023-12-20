@@ -37,7 +37,8 @@ if(NOT UPMEM_SDK_DIR)
     exit()
 endif()
 
-set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+set(CMAKE_C_FLAGS "-O3 -Wall")
+set(CMAKE_CXX_FLAGS "-O3 -Wall")
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/attention SRC_ATTENTION)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/model SRC_MODEL)
