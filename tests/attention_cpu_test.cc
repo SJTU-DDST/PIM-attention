@@ -1,18 +1,16 @@
 #include <gtest/gtest.h>
 
-extern "C" {
-    #include "../attention/attention.h"
-}
+#include "../attention/attention.hpp"
 
 TEST(AttentionTest, OnlyCPU) {
-    query *q = query_create();
-    query_init(q);
-    kv_cache *kv = kv_cache_create();
-    kv_cache_init(kv);
-    answer *ans = answer_create();
-    
-    kv_cache *fuse = kv_cache_create();
-    kv_cache_init(fuse);
+    #define ParaType int32_t
+    token<ParaType> q;
+    token<ParaType> ans(0);
+    kv_cache<ParaType> *kv = new kv_cache<ParaType>();
+    kv_cache<ParaType> *fuse = new kv_cache<ParaType>(2);
 
-    multi_head_attention(q, kv, ans);
+    multi_head_attention(q, *kv, ans);
+
+    delete kv;
+    delete fuse;
 }

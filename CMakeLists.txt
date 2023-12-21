@@ -37,14 +37,20 @@ if(NOT UPMEM_SDK_DIR)
     exit()
 endif()
 
-set(CMAKE_C_FLAGS "-O3 -Wall")
-set(CMAKE_CXX_FLAGS "-O3 -Wall")
+if(WIN32)
+    set(CMAKE_CXX_COMPILER "MSVC")
+elseif(UNIX)
+    set(CMAKE_CXX_COMPILER "g++")
+endif()
+
+# set(CMAKE_C_FLAGS "-g -O3 -Wall")
+set(CMAKE_CXX_FLAGS "-g -O3 -Wall -std=c++17")
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/attention SRC_ATTENTION)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/model SRC_MODEL)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/util SRC_UTIL)
 
-add_executable(host_app host.c ${SRC_ATTENTION} ${SRC_MODEL} ${SRC_UTIL})
+add_executable(host_app host.cpp ${SRC_ATTENTION} ${SRC_MODEL} ${SRC_UTIL})
 target_include_directories(host_app PRIVATE . ${CMAKE_CURRENT_SOURCE_DIR}/attention)
 target_include_directories(host_app PRIVATE . ${CMAKE_CURRENT_SOURCE_DIR}/model)
 target_include_directories(host_app PRIVATE . ${CMAKE_CURRENT_SOURCE_DIR}/util)
