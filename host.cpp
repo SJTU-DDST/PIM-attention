@@ -3,29 +3,49 @@
 #include "attention/dpu_set_context.h"
 #include <string>
 
-#define ParaType int32_t
+#define ParaType MODEL_PARA_TYPE
 
 int main()
 {
-    int64_t begin, last;
     token<ParaType> q;
-    token<ParaType> ans(0);
-    kv_cache<ParaType> *kv = new kv_cache<ParaType>();
-    kv_cache<ParaType> *fuse = new kv_cache<ParaType>(2);
+    token<ParaType> ans;
+    dpu_set_context dpu_set;
+    int64_t begin, last, cur;
 
     begin = usec();
-    multi_head_attention(q, *kv, ans);
-    last = usec();
-
-    std::cout << ans.vectors[0];
-
-    printf("multi_head_attention elapse time: %ld\n", last - begin);
-    delete kv;
-    delete fuse;
-
-    dpu_set_context dpu_set;
+    last = begin;
+    cur = begin;
+    dpu_set.dpu_set_context_push_token(q);
+    last = cur;
+    cur = usec();
+    printf("push elapse time: %ld\n", cur - last);
     dpu_set.dpu_set_context_dpu_run();
-    dpu_set.dpu_set_context_log_read();
-    
+    last = cur;
+    cur = usec();
+    printf("run elapse time: %ld\n", cur - last);
+    dpu_set.dpu_set_context_pull_token(ans);
+    last = cur;
+    cur = usec();
+    printf("pull elapse time: %ld\n", cur - last);
+    std::cout << ans.vectors[0];
+    printf("sum elapse time: %ld\n", cur - begin);
+
+    begin = usec();
+    last = begin;
+    cur = begin;
+    dpu_set.dpu_set_context_push_token(q);
+    last = cur;
+    cur = usec();
+    printf("push elapse time: %ld\n", cur - last);
+    dpu_set.dpu_set_context_dpu_run();
+    last = cur;
+    cur = usec();
+    printf("run elapse time: %ld\n", cur - last);
+    dpu_set.dpu_set_context_pull_token(ans);
+    last = cur;
+    cur = usec();
+    printf("pull elapse time: %ld\n", cur - last);
+    std::cout << ans.vectors[0];
+    printf("sum elapse time: %ld\n", cur - begin);
     return 0;
 }

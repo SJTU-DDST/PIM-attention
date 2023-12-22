@@ -66,6 +66,7 @@ endif()
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/dpu DPU_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/util DPU_UTIL_SOURCES)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/model DPU_MODEL_SOURCES)
 
 file(GLOB DPU_HEADERS "dpu/*.h")
 
@@ -73,10 +74,11 @@ set(DPU_TASK_NAME dpu_task)
 add_custom_target(${DPU_TASK_NAME} ALL
     COMMAND ${UPMEM_C_COMPILER} -O3 -fgnu89-inline
             -DNR_TASKLETS=${NR_TASKLETS}
-            -DSTACK_SIZE_DEFAULT=1024
+            -DSTACK_SIZE_DEFAULT=2048
             -I${CMAKE_CURRENT_SOURCE_DIR}/dpu
             -I${CMAKE_CURRENT_SOURCE_DIR}/util
-            ${DPU_SOURCES} ${DPU_UTIL_SOURCES}
+            -I${CMAKE_CURRENT_SOURCE_DIR}/model
+            ${DPU_SOURCES} ${DPU_UTIL_SOURCES} ${DPU_MODEL_SOURCES}
             -o ${EXECUTABLE_OUTPUT_PATH}/${DPU_TASK_NAME}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${DPU_SOURCES}

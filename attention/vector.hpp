@@ -1,9 +1,11 @@
 #ifndef __VECTOR_H
 #define __VECTOR_H
 
+extern "C" {
+    #include "../model/model.h"
+}
 #include <cstdint>
 #include <iostream>
-#include "../model/model.h"
 
 template <typename Type> class vector;
 template <typename Type> std::ostream &operator<<(std::ostream &os, const vector<Type> &a);
