@@ -18,7 +18,7 @@ TEST(AttentionTest, OnlyCPU) {
 
     std::cout << ans.vectors[0];
 
-    printf("multi_head_attention elapse time: %ld\n", last - begin);
+    printf("****multi_head_attention elapse time: %ld****\n", last - begin);
     delete kv;
     delete fuse;
 }

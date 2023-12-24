@@ -44,7 +44,7 @@ elseif(UNIX)
 endif()
 
 # set(CMAKE_C_FLAGS "-g -O3 -Wall")
-set(CMAKE_CXX_FLAGS "-g -O3 -Wall -std=c++17")
+set(CMAKE_CXX_FLAGS "-g -pthread -fopenmp -O3 -Wall -std=c++17")
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/attention SRC_ATTENTION)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/model SRC_MODEL)

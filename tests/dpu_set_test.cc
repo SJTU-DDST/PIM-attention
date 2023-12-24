@@ -45,5 +45,5 @@ TEST(DPU_SET_TEST, HelloWorld) {
     cur = usec();
     printf("pull elapse time: %ld\n", cur - last);
     std::cout << ans.vectors[0];
-    printf("sum elapse time: %ld\n", cur - begin);
+    printf("****sum elapse time: %ld****\n", cur - begin);
 }
